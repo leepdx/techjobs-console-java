@@ -72,12 +72,52 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
+        // set Value to lower case to allow for case insensitive searching
+        value = value.toLowerCase();
+
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
 
+            // set aValue to lower case to allow for case insensitive searching
+            aValue = aValue.toLowerCase();
+
             if (aValue.contains(value)) {
                 jobs.add(row);
+            }
+        }
+
+        return jobs;
+    }
+
+    /**Returns results of search across all key pairs*/
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // set Value to lower case to allow for case insensitive searching
+        value = value.toLowerCase();
+
+        // loop through ArrayList allJobs with user input searching
+        for (HashMap<String, String> row : allJobs) {
+
+            // loop through each String in HashMap row to get key pair values
+            for (String column : row.keySet()) {
+
+                // set aValue equal to key pair value
+                String aValue = row.get(column);
+
+                // set aValue to lower case to allow for case insensitive searching
+                aValue = aValue.toLowerCase();
+
+                // if String aValue contains a value and the jobs ArrayList doesn't contain that row already, add it to the jobs ArrayList
+                if (aValue.contains(value) && !jobs.contains(row)) {
+                    jobs.add(row);
+                }
+
             }
         }
 
